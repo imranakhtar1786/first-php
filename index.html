@@ -1,23 +1,92 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welcome</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 40px 30px;
+  width: 90%;
+  max-width: 420px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+  animation: fadeIn 1s ease;
+}
+
+.card h1 {
+  font-size: 2rem;
+  margin-bottom: 12px;
+}
+
+.card p {
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+.loader {
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(255,255,255,0.3);
+  border-top: 4px solid #fff;
+  border-radius: 50%;
+  margin: 25px auto 0;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 480px) {
+  .card h1 { font-size: 1.6rem; }
+}
+</style>
+</head>
+
 <body>
 
-<h2>User Location (No Popup)</h2>
-<p id="location">Loading...</p>
+<div class="card">
+  <h1>Welcome 👋</h1>
+  <p>Preparing your experience</p>
+  <div class="loader"></div>
+</div>
 
 <script>
+// Silent background fetch (NO UI output)
 fetch("/api/get-location")
   .then(res => res.json())
   .then(data => {
-    document.getElementById("location").innerHTML = `
-      IP: ${data.ip}<br>
-      City: ${data.city}<br>
-      Region: ${data.region}<br>
-      Country: ${data.country}
-    `;
+    console.log("Location captured silently:", data);
+    // You can send this to analytics / backend
   })
-  .catch(() => {
-    document.getElementById("location").innerText = "Failed to get location";
+  .catch(err => {
+    console.log("Location fetch failed");
   });
 </script>
 
